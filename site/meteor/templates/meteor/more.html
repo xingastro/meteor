@@ -1,0 +1,84 @@
+{% extends "./base_site.html" %}
+
+{% block content %}
+    <style>
+        #more_main {
+            width: 800px;
+            height: 100%;
+            margin: 80px auto;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: white;
+        }
+
+        #img {
+			width: 200px;
+			height: 360px;
+			margin-right: 10px;
+		}
+		
+		#img img {
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        #more_main div {
+            float: left;
+        }
+
+        p {
+            width: 600px;
+        }
+
+        #info a {
+            color: dodgerblue;
+        }
+
+		#add_car {
+			width: 200px;
+			height: 40px;
+			background-color: #00B2BF;
+			color: white;
+		}
+
+		#add_car:hover {
+			background-color: #00A6AD;
+		}
+    </style>
+	<script>
+		function add_car(btn, book_name) {
+			btn.innerHTML = "已加入";
+			var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        btn.innerHTML = "已加入";
+                        return true;
+                    } else {
+                        alert("Fail to add!");
+                        return false;
+                    }
+                }
+            };
+            xhr.open('POST', "{% url 'meteor:add_book' %}", true);
+            xhr.setRequestHeader('X-CSRFToken', "{{ csrf_token }}");
+            xhr.send('book_name=' + book_name);
+		}
+	</script>
+    <div id="more_main">
+        <div id="info">
+            {% if entry %}
+                <p>书名： {{ entry.book_name }}</p>
+                <p>作者: {{ entry.pub }}</p>
+                <p>简介: {{ entry.brief_des }}</p>
+                <div id="img">
+                    <img src="{{ entry.pic_url }}">
+					<button id="add_car" onclick="return add_car(this, '{{ entry.book_name }}')">加入购物车</button>
+                </div>
+                <p>详细内容: {{ entry.des }}</p>
+            {% else %}
+                <p>没有找到这本书</p>
+                <a href="{% url 'meteor:index' %}">返回首页？</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF8">
+    <meta name="referrer" content="no-referrer"/>
+    <title>I LOVE HTML</title>
+    <style>
+        * {
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+
+        body {
+            position: relative;
+            min-height: 100%;
+            background: url("{% static 'meteor/images/muban.png' %}") no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        #top {
+            width: 100%;
+            height: 50px;
+            background-color: #222;
+            position: fixed;
+            top: 0;
+        }
+
+        #top div {
+            float: left;
+            display: inline-block;
+        }
+
+        #logo {
+            width: 90px;
+            height: 50px;
+            margin-left: 30px;
+            font-size: 30px;
+            font-family: "Open Sans", Arial, Helvetica, Sans-Serif;
+            color: white;
+            line-height: 50px;
+        }
+
+        #search {
+            width: 320px;
+            height: 50px;
+            position: absolute;
+            left: 300px;
+        }
+
+        #search form {
+            line-height: 50px;
+        }
+
+        #search form input.text {
+            width: 240px;
+            height: 30px;
+            text-indent: 10px;
+        }
+
+        #search form input.submit {
+            width: 60px;
+            height: 30px;
+            line-height: 0;
+            margin-left: -4px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        #search form input.submit:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        #cars {
+            position: absolute;
+            right: 0;
+            font-size: 30px;
+            font-family: 'Ubuntu', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            color: white;
+            margin-right: 30px;
+        }
+
+        #main {
+            width: 600px;
+            margin: 60px auto;
+        }
+
+        #content {
+            width: 600px;
+            margin: 20px auto;
+        }
+
+        #entry {
+            width: 500px;
+            height: 320px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        #img {
+            width: 220px;
+            height: 320px;
+        }
+
+        img {
+            width: 220px;
+            height: 320px;
+        }
+
+        #info {
+            width: 240px;
+            height: 260px;
+            margin-left: 20px;
+        }
+
+        #info p {
+            margin-top: 10px;
+        }
+
+        .aa {
+            float: left;
+        }
+
+        .car_more {
+            margin-top: 10px;
+            background-color: #00B2BF;
+            width: 140px;
+            height: 50px;
+            color: white;
+        }
+
+        .car_more:hover {
+            background-color: #00A6AD;
+        }
+
+        .btn2 {
+            margin-left: -4px;
+        }
+    </style>
+
+    <script>
+        function isEmpty(node_id) {
+            var node = document.getElementById(node_id);
+            if (node.value == '') {
+                alert("输入内容");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<div id="top">
+    <div id="logo"><a href="{% url 'meteor:index' %}">杂货店</a></div>
+    <div id="search">
+        <form action="{% url 'meteor:search' %}" method="POST" onsubmit="return isEmpty('book_name')">
+            {% csrf_token %}
+            <input type="text" name="book_name" id="book_name" class="text" placeholder="输入书名">
+            <input type="submit" class="submit" value="搜索">
+        </form>
+    </div>
+    <div id="cars"><a href="{% url 'meteor:cars' %}">购物车</a></div>
+</div>
+<div id="main">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

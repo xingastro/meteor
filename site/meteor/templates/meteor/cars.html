@@ -1,0 +1,130 @@
+{% extends "./base_site.html" %}
+
+{% block content %}
+    {% if books %}
+        {% for book in books %}
+            <div class="book">
+                <a href="{% url 'meteor:more' book.book_name %}"><p class="name">{{ book.book_name }}</p></a>
+                <p class="price">{{ book.price }}元</p>
+                <button class="btn" onclick="det(this, '{{ book.book_name }}')">移出购物车</button>
+            </div>
+            <div class="separator"></div>
+        {% endfor %}
+        <div id="buy_or_clean">
+            <a href="{% url 'meteor:buy' %}">
+                <button id="buy" class="btn" onclick="buy()">购买所有</button>
+            </a>
+            <button id="clean" class="btn" onclick="clean()">清除所有</button>
+        </div>
+    {% else %}
+        <div class="book">
+            <p>购物车还没有书呢，去<a href="{% url 'meteor:index' %}">首页</a>看看吧</p>
+        </div>
+    {% endif %}
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        function det(btn, book_name) {
+            $(btn.parentNode).hide(1000);
+            $(btn.parentNode).next().hide(1000);
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        return true;
+                    } else {
+                        alert("Fail to del!");
+                        return false;
+                    }
+                }
+            };
+            xhr.open('POST', "{% url 'meteor:del_book' %}", true);
+            xhr.setRequestHeader('X-CSRFToken', "{{ csrf_token }}");
+            xhr.send('book_name=' + book_name);
+        }
+
+        function buy() {
+
+        }
+
+        function clean() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        return true;
+                    } else {
+                        alert("Fail to del!");
+                        return false;
+                    }
+                }
+            };
+            xhr.open('POST', "{% url 'meteor:del_book' %}", true);
+            xhr.setRequestHeader('X-CSRFToken', "{{ csrf_token }}");
+            xhr.send('book_name=' + '*cleanbook*');
+            $(location).attr('href', "{% url 'meteor:cars' %}");
+
+        }
+    </script>
+    <style>
+        .book {
+            width: 600px;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.7);
+            margin: 0 auto;
+        }
+
+        .book p {
+            display: inline;
+            margin-left: 20px;
+            line-height: 70px;
+            float: left;
+        }
+
+        .book p a, .book a {
+            color: dodgerblue;
+        }
+
+        .name {
+            width: 230px;
+            height: 50px;
+        }
+
+        .price {
+            width: 100px;
+            height: 50px;
+            color: red;
+        }
+
+        .separator {
+            width: 100%;
+            height: 10px;
+        }
+
+        .btn {
+            width: 100px;
+            height: 100%;
+            float: right;
+            background-color: #00B2BF;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #00A6AD;
+        }
+
+        #buy_or_clean {
+            width: 600px;
+            height: 70px;
+            margin: 30px auto;
+        }
+
+        #buy {
+            width: 300px;
+        }
+
+        #clean {
+            width: 300px;
+        }
+    </style>
+{% endblock %}

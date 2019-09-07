@@ -1,0 +1,123 @@
+* {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: cadetblue;
+}
+
+
+#top {
+    width: 100%;
+    height: 50px;
+    background-color: #222;
+}
+
+#top div {
+    float: left;
+    display: inline-block;
+}
+
+#logo {
+    width: 90px;
+    height: 50px;
+    margin-left: 30px;
+    font-size: 30px;
+    font-family: "Open Sans", Arial, Helvetica, Sans-Serif;
+    color: white;
+    line-height: 50px;
+}
+
+#search {
+    width: 320px;
+    height: 50px;
+    position: absolute;
+    left: 300px;
+}
+
+#search form {
+    line-height: 50px;
+}
+
+#search form input.text {
+    width: 240px;
+    height: 30px;
+    text-indent: 10px;
+}
+
+#search form input.submit {
+    width: 60px;
+    height: 30px;
+    line-height: 0;
+    margin-left: -4px;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+#search form input.submit:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#cars {
+    position: absolute;
+    right: 0;
+    font-size: 20px;
+    font-family: 'Ubuntu', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    color: white;
+    margin-right: 30px;
+}
+
+#content {
+    width: 600px;
+    margin: 20px auto;
+}
+
+#entry {
+    width: 500px;
+    height: 320px;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+#img {
+    width: 220px;
+    height: 320px;
+}
+
+img {
+    width: 220px;
+    height: 320px;
+}
+
+#info {
+    width: 240px;
+    height: 260px;
+    margin-left: 20px;
+}
+
+#info p {
+    margin-top: 10px;
+}
+
+.aa {
+    float: left;
+}
+
+.car_more {
+    margin-top: 10px;
+    background-color: #00B2BF;
+    width: 140px;
+    height: 50px;
+    color: white;
+}
+
+.car_more:hover {
+    background-color: #00A6AD;
+}
+
+.btn2 {
+    margin-left: -4px;
+}

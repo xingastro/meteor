@@ -1,0 +1,89 @@
+{% extends "./base_site.html" %}
+
+{% block content %}
+    <div id="main_buy">
+        <div id="total_money">总计： {{ total_money }}￥</div>
+        <form action="#" method="POST" onsubmit="return congratulations()">
+            {% csrf_token %}
+            <input type="text" name="card_id" placeholder="这里输入您的银行卡号">
+            <input type="password" name="password" placeholder="这里输入您的密码">
+            <button id="btn_buy">购买</button>
+        </form>
+    </div>
+
+    <style>
+        #main_buy {
+            width: 100%;
+            height: 500px;
+            margin-top: 100px;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        #total_money {
+            width: 360px;
+            height: 100px;
+            color: red;
+            font-size: 30px;
+            margin: 20px auto;
+            text-align: center;
+            padding-top: 30px;
+        }
+
+        #main_buy form input {
+            width: 360px;
+            height: 50px;
+            display: block;
+            margin-top: 20px;
+            margin-left: 100px;
+            text-indent: 10px;
+        }
+
+        #btn_buy {
+            width: 360px;
+            height: 80px;
+            background-color: #00B2BF;
+            color: white;
+            margin-top: 30px;
+            margin-left: 100px;
+        }
+
+        #btn_buy:hover {
+            background-color: #00A6AD;
+        }
+    </style>
+
+    <script>
+        function congratulations() {
+            var btn = document.getElementById("btn_buy");
+            var div = document.createElement("div");
+            div.setAttribute("style", "font-size: 16px; margin-top: 20px;" +
+                "margin-left: 120px; color: red;");
+            div.innerHTML = "购买成功！欢迎您下次光临本书店!  ";
+            var a = document.createElement('a');
+            a.setAttribute("href", "{% url 'meteor:index' %}");
+            a.innerHTML = "  首页看看?";
+            div.appendChild(a);
+            btn.parentNode.appendChild(div);
+
+            clean();
+            return false;
+        }
+
+        function clean() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        return true;
+                    } else {
+                        alert("Fail to del!");
+                        return false;
+                    }
+                }
+            };
+            xhr.open('POST', "{% url 'meteor:del_book' %}", true);
+            xhr.setRequestHeader('X-CSRFToken', "{{ csrf_token }}");
+            xhr.send('book_name=' + '*cleanbook*');
+        }
+    </script>
+{% endblock %}

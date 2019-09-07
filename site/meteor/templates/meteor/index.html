@@ -1,0 +1,42 @@
+{% extends "./base_site.html" %}
+
+{% block content %}
+    {% if entries %}
+        {% for entry in entries %}
+            <div id="content">
+                <div id="entry">
+                    <div id="img" class="aa"><img src="{{ entry.pic_url }}"></div>
+                    <div id="info" class="aa">
+                        <p>书名： {{ entry.book_name }}</p>
+                        <p>作者: {{ entry.pub }}</p>
+                        <p>简介: {{ entry.brief_des }}</p>
+                    </div>
+                    <div>
+                    <button class="car_more" onclick="return addCars(this, '{{ entry.book_name }}');">加入购物车</button>
+                    <a href="{% url 'meteor:more' entry.book_name %}"><button class="car_more btn2">更多</button></a>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+        {% endfor %}
+    {% endif %}
+    <script>
+        function addCars(btn, book_name){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        btn.innerHTML = "已加入";
+                        return true;
+                    } else {
+                        alert("Fail to add!");
+                        return false;
+                    }
+                }
+            };
+            xhr.open('POST', "{% url 'meteor:add_book' %}", true);
+            xhr.setRequestHeader('X-CSRFToken', "{{ csrf_token }}");
+            xhr.send('book_name=' + book_name);
+        }
+    </script>
+{% endblock %}
